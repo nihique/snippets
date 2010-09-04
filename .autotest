@@ -9,7 +9,12 @@ SUCCESS_SOUND = ''
 FAILURE_SOUND = ''
 
 # .autotest - to troubleshoot
-Autotest.add_hook :initialize do |at|
+Autotest.add_hook :initialize do |autotest|
   # files in log directory causes autotest infinite loop when test fails
-  at.add_exception(%r{^\./log})
+  autotest.add_exception(%r{^\./log})
+
+  # add integration tests
+  autotest.add_mapping(%r%^spec/(requests)/.*rb$%) do|filename, _|
+    filename
+  end      
 end
